@@ -39,6 +39,7 @@ dependencies {
     compile 'no.tornado:tornadofx:1.7.11'
 
     testCompile 'org.amshove.kluent:kluent:1.30'
+    testCompile 'org.junit.platform:junit-platform-runner:1.0.0'
     testCompile ("org.jetbrains.spek:spek-api:$spek_version") {
         exclude group: 'org.jetbrains.kotlin'
     }
