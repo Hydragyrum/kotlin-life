@@ -55,6 +55,22 @@ object GameSpek : Spek ({
             }
         }
 
+        on("Toggle a cell at Point 2, 2") {
+            board.toggle(2, 2)
+            it( "Point should be alive") {
+                board.cellAt(2, 2).`should be true`()
+            }
+        }
+
+        on("Toggle a cell at Point 2, 2 with Point") {
+            val p = Point(4, 2)
+            board.toggle(p)
+            board.toggle(p)
+            it( "Point should be dead") {
+                board.cellAt(p).`should be false`()
+            }
+        }
+
         on("Get number of live neighbours") {
             board.birth(1, 1)
             board.birth(3, 3)

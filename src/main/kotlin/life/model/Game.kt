@@ -28,6 +28,13 @@ class Game(val width: Int = 32, val height: Int = 32) {
         state[calculateIndex(p)] = false
     }
 
+    fun toggle(x: Int, y: Int) = toggle(Point(x, y))
+
+    fun toggle(p: Point) {
+        val idx = calculateIndex(p)
+        state[idx] = !state[idx]
+    }
+
     fun clear() {
         state.fill(false)
     }
