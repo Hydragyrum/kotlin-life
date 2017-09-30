@@ -31,9 +31,10 @@ object GameSpek : Spek ({
         }
 
         on("Birth a cell at point 1, 3 with a Point") {
-            board.birth(Point(1, 3))
+            val p = Point(1, 3)
+            board.birth(p)
             it("Should make the point alive") {
-                board.cellAt(Point(1, 3))
+                board.cellAt(p)
             }
         }
 
@@ -42,6 +43,15 @@ object GameSpek : Spek ({
             board.kill(2, 2)
             it("Should make point dead") {
                 board.cellAt(2, 2).`should be false`()
+            }
+        }
+
+        on("Kill cell at point 3, 1 with a Point") {
+            val p = Point(3, 1)
+            board.birth(p)
+            board.kill(p)
+            it("Should make point dead") {
+                board.cellAt(p).`should be false`()
             }
         }
 
@@ -57,8 +67,41 @@ object GameSpek : Spek ({
             board.birth(1, 0)
             board.birth(4, 4)
             it("Point 0, 0 should have 2 neighbours") {
-                board.getLiveNeighbours(0, 0) `should equal` 2
+                board.getLiveNeighbours(Point(0, 0)) `should equal` 2
             }
+        }
+
+        on("Calculate Next State with live cell") {
+            board.birth(1, 2)
+            board.birth(2, 1)
+            board.birth(3, 2)
+            board.calculateNextState()
+            it("Point at 1,2 and 2,2 lives, rest die.") {
+                getBoardState(board) `should equal` arrayOf(false, false, false, false, false,
+                                                            false, false, true, false, false,
+                                                            false, false, true, false, false,
+                                                            false, false, false, false, false,
+                                                            false, false, false, false, false)
+            }
+        }
+
+        on("Calculate next state with glider") {
+            board.birth(2, 1)
+            board.birth(3, 2)
+            board.birth(3, 3)
+            board.birth(2, 3)
+            board.birth(1, 3)
+            board.calculateNextState()
+            it("Next State should advance the glider") {
+                getBoardState(board) `should equal` arrayOf(false, false, false, false, false,
+                                                            false, false, false, false, false,
+                                                            false, true, false, true, false,
+                                                            false, false, true, true, false,
+                                                            false, false, true, false, false)
+            }
+
         }
     }
 })
+
+private fun getBoardState(board: Game) = Array(board.width * board.height, { i: Int -> board.cellAt(i) })

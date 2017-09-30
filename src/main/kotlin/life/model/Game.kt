@@ -1,5 +1,8 @@
 package life.model
 
+import kotlin.coroutines.experimental.buildSequence
+import kotlin.streams.toList
+
 class Game(val width: Int = 32, val height: Int = 32) {
 
     private var state: Array<Boolean> = Array(width * height, { _ -> false })
@@ -10,7 +13,9 @@ class Game(val width: Int = 32, val height: Int = 32) {
 
     fun cellAt(x: Int, y: Int) = cellAt(Point(x, y))
 
-    fun cellAt(p: Point) : Boolean = state[calculateIndex(p)]
+    fun cellAt(p: Point): Boolean = state[calculateIndex(p)]
+
+    fun cellAt(i: Int): Boolean = state[i % (width * height)]
 
     fun birth(x: Int, y: Int) = birth(Point(x, y))
 
@@ -18,8 +23,10 @@ class Game(val width: Int = 32, val height: Int = 32) {
         state[calculateIndex(p)] = true
     }
 
-    fun kill(x: Int, y: Int) {
-        state[calculateIndex(x, y)] = false
+    fun kill(x: Int, y: Int) = kill(Point(x, y))
+
+    fun kill(p: Point) {
+        state[calculateIndex(p)] = false
     }
 
     fun clear() {
@@ -34,10 +41,28 @@ class Game(val width: Int = 32, val height: Int = 32) {
                 .count()
     }
 
+    fun calculateNextState() {
+        state = getAllPoints().map{computeBehaviour(it)}.toList().toTypedArray()
+    }
+
+    private fun computeBehaviour(p: Point): Boolean {
+        val neighbours = getLiveNeighbours(p)
+        return when (neighbours) {
+            2 -> cellAt(p)
+            3 -> true
+            else -> false
+        }
+    }
+
     private fun calculateIndex(x: Int, y: Int) = calculateIndex(Point(x, y))
-    private fun calculateIndex(p: Point) = ((p.x + width) % width) * width + ((p.y + height) % height)
+
+    private fun calculateIndex(p: Point) = ((p.y + height) % height) * height + ((p.x + width) % width)
+
+    private fun getAllPoints(): Sequence<Point> = buildSequence {
+        yieldAll((0 until height).flatMap { y -> (0 until width).map { x -> Point(x, y) } })
+    }
 }
 
-class Point(val x: Int, val y: Int) {
+data class Point(val x: Int, val y: Int) {
     operator fun plus(other: Point): Point = Point(x + other.x, y + other.y)
 }
