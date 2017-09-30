@@ -1,7 +1,6 @@
 package life.model
 
 import kotlin.coroutines.experimental.buildSequence
-import kotlin.streams.toList
 
 class Game(val width: Int = 32, val height: Int = 32) {
 
