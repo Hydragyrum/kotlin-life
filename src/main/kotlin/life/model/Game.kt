@@ -1,7 +1,5 @@
 package life.model
 
-import com.sun.org.apache.xpath.internal.operations.Bool
-
 class Game(val width: Int = 32, val height: Int = 32) {
 
     private var state: Array<Boolean> = Array(width * height, {_ -> false})
