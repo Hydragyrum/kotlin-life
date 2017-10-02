@@ -3,9 +3,11 @@ package life.view
 import javafx.geometry.HPos
 import javafx.geometry.Pos
 import javafx.geometry.VPos
+import javafx.scene.Parent
 import javafx.scene.effect.Glow
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.ColumnConstraints
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.RowConstraints
@@ -20,75 +22,10 @@ class GameView : View("Game of Life") {
 
     val lifeController: GameController by inject()
 
-    private var grid: GridPane by singleAssign()
+    override val root: GridPane by fxid()
 
-    override val root = gridpane {
-
-        alignment = Pos.CENTER
-        prefWidth = 300.0
-        rowConstraints.add(RowConstraints().apply {
-            minHeight = Double.NEGATIVE_INFINITY
-            prefHeight = 35.0
-        })
-        rowConstraints.add(RowConstraints().apply {
-            prefHeight = 300.0
-            prefWidth = 300.0
-        })
-        anchorpane {
-            addClass(GameStyles.titleBarStyle)
-            text {
-                layoutX = 8.0
-                layoutY = 22.0
-                addClass(GameStyles.titleBarTextStyle)
-                text = "${lifeController.width}"
-                setOnMouseClicked {
-                    updateWidth(it)
-                }
-            }
-            text {
-                addClass(GameStyles.titleBarTextStyle)
-                text = "x"
-            }
-            text {
-                addClass(GameStyles.titleBarTextStyle)
-                text = "${lifeController.height}"
-                setOnMouseClicked {
-                    updateHeight(it)
-                }
-            }
-            text {
-                addClass(GameStyles.titleBarTextStyle)
-                text = "↕️"
-            }
-            button {
-                addClass(GameStyles.titleBarTextStyle)
-                text = "▶️"
-            }
-            button {
-                addClass(GameStyles.titleBarTextStyle)
-                text = "⏭️"
-            }
-            button {
-                addClass(GameStyles.titleBarTextStyle)
-                text = "\uD83D\uDD04"
-            }
-            button {
-                addClass(GameStyles.titleBarTextStyle)
-            }
-
-        }
-        anchorpane {
-            addClass(GameStyles.grid)
-            gridpane {
-                apply {
-                    grid = this
-                }
-                addClass(GameStyles.grid)
-
-                setupGrid()
-            }
-        }
-    }
+    private val grid: GridPane by fxid()
+    private val titleBar: AnchorPane by fxid()
 
     private fun Text.updateWidth(it: MouseEvent) {
         if (lifeController.isRunning) return

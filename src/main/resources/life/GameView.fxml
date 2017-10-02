@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="life.view.GameView"
+          fx:id="root"
+          alignment="CENTER"
+          maxHeight="-Infinity"
+          minHeight="-Infinity"
+          minWidth="-Infinity"
+          prefHeight="600.0" prefWidth="600.0">
+
+    <columnConstraints>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="-Infinity" prefHeight="35.0"/>
+        <RowConstraints minHeight="600.0" prefHeight="600.0"/>
+    </rowConstraints>
+
+    <AnchorPane fx:id="titleBar"
+                prefHeight="200"
+                prefWidth="200">
+        <Text fx:id="widthIndicator"
+              layoutX="8.0"
+              layoutY="22.0"
+              AnchorPane.bottomAnchor="9.0"
+              AnchorPane.topAnchor="9.0">
+
+        </Text>
+
+    </AnchorPane>
+
+</GridPane>
