@@ -1,8 +1,6 @@
 package life.model
 
-import io.kotlintest.TestCase
-import io.kotlintest.runner.junit5.specs.BehaviorSpec
-import io.kotlintest.should
+import io.kotlintest.specs.BehaviorSpec
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should be`
 import org.amshove.kluent.`should equal`
